@@ -1,6 +1,7 @@
 {
   "name": "cowin-slots",
-  "version": "0.0.0",
+  "version": "0.0.1",
+  "homepage": "https://shakeelansari63.github.io/cowin-slots",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -20,6 +21,8 @@
     "@angular/platform-browser": "~12.0.3",
     "@angular/platform-browser-dynamic": "~12.0.3",
     "@angular/router": "~12.0.3",
+    "font-awesome": "^4.7.0",
+    "gh-pages": "^3.2.3",
     "rxjs": "~6.6.0",
     "tslib": "^2.1.0",
     "zone.js": "~0.11.4"
