@@ -1,7 +1,7 @@
 {
   "name": "cowin-slots",
   "version": "0.0.1",
-  "homepage": "https://shakeelansari63.github.io/cowin-slots",
+  "homepage": "https://shakeelansari63.github.io/cowin-slots/",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
