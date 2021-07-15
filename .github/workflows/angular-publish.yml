@@ -26,15 +26,18 @@ jobs:
         with:
           node-version: 15.x
 
+      - name: Install Angular CLI
+        run: npm install -g @angular/cli
+
       - name: Install Project Dependencies
         run: npm install
 
       - name: Build package for deployment
-        run: npm run build
+        run: ng build --prod --output-path=dist --base-href="https://shakeelansari63.github.io/cowin-slots"
 
       - name: Deploy package to github pages
         run: |
           git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
-          npx gh-pages -d dist/cowin-slots -u "github-actions-bot <support+actions@github.com>"
+          npx gh-pages -d dist -u "github-actions-bot <support+actions@github.com>"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
