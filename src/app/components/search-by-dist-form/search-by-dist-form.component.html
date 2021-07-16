@@ -8,7 +8,7 @@
     </mat-form-field>
     </div>
     <div>
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" *ngIf="selectedState">
         <mat-label>District</mat-label>
         <mat-select [(value)]="selectedDist" name="district">
             <mat-option *ngFor="let dist of distList" [value]="dist.district_id">{{ dist.district_name }}</mat-option>
@@ -23,4 +23,8 @@
         <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
     </div>
+    <button mat-raised-button color="primary" type="submit">
+        <mat-icon>search</mat-icon> 
+        Search Slots
+    </button>
 </form>
