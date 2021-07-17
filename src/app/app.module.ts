@@ -14,9 +14,8 @@ import { FormTabsComponent } from './components/form-tabs/form-tabs.component';
 import { SearchByDistFormComponent } from './components/search-by-dist-form/search-by-dist-form.component';
 import { SearchByPinFormComponent } from './components/search-by-pin-form/search-by-pin-form.component';
 import { QuickFiltersComponent } from './components/quick-filters/quick-filters.component';
-import { CentersListComponent } from './components/centers-list/centers-list.component';
-import { CenterDetailComponent } from './components/center-detail/center-detail.component';
-
+import { SlotDetailComponent } from './components/slot-detail/slot-detail.component';
+import { SlotsListComponent } from './components/slots-list/slots-list.component';
 
 
 @NgModule({
@@ -28,8 +27,8 @@ import { CenterDetailComponent } from './components/center-detail/center-detail.
     SearchByDistFormComponent,
     SearchByPinFormComponent,
     QuickFiltersComponent,
-    CentersListComponent,
-    CenterDetailComponent
+    SlotDetailComponent,
+    SlotsListComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,6 @@
+<div *ngIf="slots.length === 0">
+    <mat-card>No Slots Found</mat-card>
+</div>
+<div *ngIf="slots.length > 0">
+<app-slot-detail *ngFor="let slot of slots" [slot]="slot"></app-slot-detail>
+</div>

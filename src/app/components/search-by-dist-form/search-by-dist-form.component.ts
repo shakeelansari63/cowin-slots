@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CowinApiService } from '../../services/cowin-api.service';
-import {States, Districts} from '../../interfaces/api-data'
+import {States, Districts, DistrictSearchParams} from '../../interfaces/api-data'
+import { Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-search-by-dist-form',
@@ -9,16 +10,20 @@ import {States, Districts} from '../../interfaces/api-data'
 })
 export class SearchByDistFormComponent implements OnInit {
 
-  statesList: any;
-  distList: any;
-  selectedState: any;
-  selectedDist: any;
+  statesList: any = null;
+  distList: any = null;
+  selectedState: number = 0;
+  selectedDist: number = 0;
+  todayDate: Date = new Date();
   selectedDate: any;
+
+
+  @Output() searchSubmit: EventEmitter<DistrictSearchParams> = new EventEmitter();
 
   constructor(private cowin: CowinApiService) { }
 
   ngOnInit(): void {
-    this.selectedDate = new Date();
+    this.selectedDate = this.todayDate;
     this.getStatesList();
   }
 
@@ -34,6 +39,23 @@ export class SearchByDistFormComponent implements OnInit {
       this.distList = (dist as Districts).districts;
       console.log(this.distList)
     })
+  }
+
+  viewSelectedDistrict() {
+    console.log(this.selectedDist)
+  }
+
+  searchByDist() {
+    if (this.selectedDate !== null && this.selectedDist !== 0) {
+      const districtParams = {
+        district: this.selectedDist,
+        dt: this.selectedDate
+      }
+
+      this.searchSubmit.emit(districtParams);
+    } else {
+      alert ("Please select valid district and Date !!!")
+    }
   }
 
 }
