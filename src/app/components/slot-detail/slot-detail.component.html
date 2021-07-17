@@ -1,5 +1,12 @@
-<mat-card>
-    <mat-card-header>
-        <mat-card-title> {{ slot.address }}</mat-card-title>
-    </mat-card-header>
-</mat-card>
+<div>
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title> 
+                {{ slot.address + ', ' + slot.block_name }}
+            </mat-card-title>
+            <mat-card-subtitle>
+                {{ slot.district_name + ' - ' + slot.pincode }}
+            </mat-card-subtitle>
+        </mat-card-header>
+    </mat-card>
+</div>

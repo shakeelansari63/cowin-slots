@@ -18,7 +18,8 @@ export class FormTabsComponent implements OnInit {
 
   searchByDistrict(evnt: DistrictSearchParams) {
     this.cowin.getSlotsByDist(evnt.district, evnt.dt).forEach(slots => {
-      this.slotsList = (slots as Sessions).sessions
+      this.slotsList = (slots as Sessions).sessions;
+      console.log(this.slotsList)
     })
   }
 
