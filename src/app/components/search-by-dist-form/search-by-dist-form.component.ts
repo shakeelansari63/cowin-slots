@@ -35,6 +35,7 @@ export class SearchByDistFormComponent implements OnInit {
   }
 
   getDistricts() {
+    this.distList = null;
     this.cowin.getDistForState(+this.selectedState).forEach(dist => {
       this.distList = (dist as Districts).districts;
       console.log(this.distList)
