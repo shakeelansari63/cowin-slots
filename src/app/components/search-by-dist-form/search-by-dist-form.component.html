@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container top15">
     <form (ngSubmit)="searchByDist()">
         <div>
         <mat-form-field appearance="fill">
@@ -9,7 +9,7 @@
         </mat-form-field>
         </div>
         <div>
-        <mat-form-field appearance="fill" *ngIf="selectedState">
+        <mat-form-field appearance="fill" *ngIf="distList">
             <mat-label>District</mat-label>
             <mat-select [(value)]="selectedDist" name="district" (selectionChange)="viewSelectedDistrict()">
                 <mat-option *ngFor="let dist of distList" [value]="dist.district_id">{{ dist.district_name }}</mat-option>

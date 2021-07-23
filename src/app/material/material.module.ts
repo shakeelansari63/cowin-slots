@@ -10,7 +10,8 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatInputModule} from '@angular/material/input';
 import {MatCardModule} from '@angular/material/card';
-
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatBadgeModule} from '@angular/material/badge';
 
 const MaterialComponents = [
   MatToolbarModule,
@@ -22,7 +23,9 @@ const MaterialComponents = [
   MatDatepickerModule,
   MatNativeDateModule,
   MatInputModule,
-  MatCardModule
+  MatCardModule,
+  MatGridListModule,
+  MatBadgeModule
 ];
 
 @NgModule({

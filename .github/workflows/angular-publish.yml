@@ -32,6 +32,9 @@ jobs:
       - name: Install Project Dependencies
         run: npm install
 
+      - name: Install GH-Pages Module for publishing to Github Pages
+        run: npm install gh-pages
+
       - name: Build package for deployment
         run: ng build --output-path=dist --base-href="https://shakeelansari63.github.io/cowin-slots/"
 

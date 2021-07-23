@@ -1,12 +1,21 @@
-<div>
+<div class="slot-card">
     <mat-card>
-        <mat-card-header>
-            <mat-card-title> 
-                {{ slot.address + ', ' + slot.block_name }}
-            </mat-card-title>
-            <mat-card-subtitle>
-                {{ slot.district_name + ' - ' + slot.pincode }}
-            </mat-card-subtitle>
-        </mat-card-header>
+        <div class="slot-card-head">
+            <span
+                [matBadge]="slot.available_capacity"
+                matBadgeColor="accent"
+                class="pill" 
+                [ngClass]="slot.vaccine === 'COVAXIN' ? 'covaxin' 
+                                : slot.vaccine === 'COVISHIELD' ? 'covishield' 
+                                : 'sputnik' ">
+            <p>{{ slot.vaccine.toLowerCase()}}</p>
+            </span>
+            <mat-card-header>
+                <mat-card-title> {{ slot.name }}</mat-card-title>
+                <mat-card-subtitle>
+                    {{ slot.address + ', ' + slot.block_name + ', ' + slot.district_name + ' - ' + slot.pincode }}
+                </mat-card-subtitle>
+            </mat-card-header>
+        </div>
     </mat-card>
 </div>

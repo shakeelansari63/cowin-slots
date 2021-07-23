@@ -1,3 +1,43 @@
-div {
+.slot-card {
   margin-bottom: 15px;
+}
+
+.pill {
+  border-radius: 20px;
+  font-weight: bold;
+  width: 7rem;
+  height: 1.2rem;
+  text-align: center;
+  margin: auto;
+  padding: 5px;
+}
+
+.covishield {
+  background-color: DarkSlateBlue;
+  color: #fff;
+}
+
+.covaxin {
+  background-color: DarkOliveGreen;
+  color: #fff;
+}
+
+.sputnik {
+  background-color: Crimson;
+  color: #fff;
+}
+
+.slot-card-head {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+}
+
+.slot-card-head > .pill {
+  grid-row: 1 / span 2;
+}
+
+.mat-badge-content {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
 }
