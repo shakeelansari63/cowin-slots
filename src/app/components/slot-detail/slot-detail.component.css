@@ -4,12 +4,15 @@
 
 .pill {
   border-radius: 20px;
+  padding: 0px 8px;
+  min-width: 3rem;
+}
+
+.vac-pill {
+  height: 1.2rem;
   font-weight: bold;
-  width: 4rem;
-  height: 1.1rem;
   text-align: center;
-  font-size: 0.6rem;
-  padding: 0px;
+  font-size: 0.8rem;
 }
 
 .pill > p {
@@ -36,13 +39,40 @@
   grid-template-columns: 1fr 8fr;
 }
 
-.slot-card-head > .pill {
-  grid-row: 1 / span 2;
-}
-
 .mat-badge-content {
   width: 1.2rem;
   height: 1.2rem;
   line-height: 1.2rem;
   font-size: 0.5rem;
+}
+
+.slot-details {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.detail-pill {
+  margin: 5px;
+  height: 1.2rem;
+  text-align: center;
+}
+
+.age-pill {
+  background-color: CadetBlue;
+  color: #fff;
+}
+
+.dose1-pill {
+  background-color: Indianred;
+  color: #fff;
+}
+
+.dose2-pill {
+  background-color: Indigo;
+  color: #fff;
+}
+
+.fee-pill {
+  background-color: MediumVioletRed;
+  color: #fff;
 }

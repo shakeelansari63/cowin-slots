@@ -4,7 +4,7 @@
             <span
                 [matBadge]="slot.available_capacity"
                 matBadgeColor="accent"
-                class="pill" 
+                class="pill vac-pill" 
                 [ngClass]="slot.vaccine === 'COVAXIN' ? 'covaxin' 
                                 : slot.vaccine === 'COVISHIELD' ? 'covishield' 
                                 : 'sputnik' ">
@@ -16,6 +16,20 @@
                     {{ slot.address + ', ' + slot.block_name + ', ' + slot.district_name + ' - ' + slot.pincode }}
                 </mat-card-subtitle>
             </mat-card-header>
+        </div>
+        <div class="slot-details">
+            <div class="pill detail-pill age-pill">
+                <p>Age: {{ slot.min_age_limit}}+ </p>
+            </div>
+            <div class="pill detail-pill dose1-pill">
+                <p>Dose 1: {{ slot.available_capacity_dose1 }}</p>
+            </div>
+            <div class="pill detail-pill dose2-pill">
+                <p>Dose 2: {{ slot.available_capacity_dose2 }}</p>
+            </div>
+            <div class="pill detail-pill fee-pill">
+                <p>Fee: {{ slot.fee_type === 'free' ? slot.fee_type : slot.fee }}</p>
+            </div>
         </div>
     </mat-card>
 </div>
