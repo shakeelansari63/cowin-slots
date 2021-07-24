@@ -1,4 +1,4 @@
-interface State {
+export interface State {
     state_id: number;
     state_name: string;
 }
@@ -7,7 +7,7 @@ export interface States {
     ttl: number
 }
 
-interface District {
+export interface District {
     district_id: number;
     district_name: string;
 }
@@ -19,6 +19,11 @@ export interface Districts {
 
 export interface DistrictSearchParams {
     district: number;
+    dt: Date;
+}
+
+export interface PincodeSearchParams {
+    pincode: number;
     dt: Date;
 }
 

@@ -11,7 +11,7 @@
         <div>
         <mat-form-field appearance="fill" *ngIf="distList">
             <mat-label>District</mat-label>
-            <mat-select [(value)]="selectedDist" name="district" (selectionChange)="viewSelectedDistrict()">
+            <mat-select [(value)]="selectedDist" name="district" (selectionChange)="resetSlotsEvent()">
                 <mat-option *ngFor="let dist of distList" [value]="dist.district_id">{{ dist.district_name }}</mat-option>
             </mat-select>
         </mat-form-field>

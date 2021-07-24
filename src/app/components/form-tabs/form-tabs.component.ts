@@ -1,5 +1,5 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { DistrictSearchParams, Slots, Sessions } from '../../interfaces/api-data';
+import { Component, OnInit } from '@angular/core';
+import { DistrictSearchParams, Slots, PincodeSearchParams } from '../../interfaces/api-data';
 import { CowinApiService } from '../../services/cowin-api.service';
 
 @Component({
@@ -9,18 +9,31 @@ import { CowinApiService } from '../../services/cowin-api.service';
 })
 export class FormTabsComponent implements OnInit {
 
-  slotsList: Slots[] = [];
+  slotsList: Slots[];
 
   constructor(private cowin: CowinApiService) { }
 
   ngOnInit(): void {
+    this.slotsList = [];
+    
+    // Subscribe to Slots List 
+    this.cowin.slots$.subscribe(slots => {
+      this.slotsList = slots;
+    })
   }
 
   searchByDistrict(evnt: DistrictSearchParams) {
-    this.cowin.getSlotsByDist(evnt.district, evnt.dt).forEach(slots => {
-      this.slotsList = (slots as Sessions).sessions.filter(session => session.available_capacity > 0);
-      console.log(this.slotsList)
-    })
+    // Get Slots
+    this.cowin.getSlotsByDist(evnt.district, evnt.dt);
+  }
+
+  searchByPincode(evnt: PincodeSearchParams) {
+    // Get Slots
+    this.cowin.getSlotByPincode(evnt.pincode, evnt.dt);
+  }
+
+  resetSlots() {
+    this.cowin.setSlots([]);
   }
 
 }

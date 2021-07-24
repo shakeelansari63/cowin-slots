@@ -1,5 +1,11 @@
-<div *ngIf="slots.length === 0">
-    <mat-card>No Slots Found</mat-card>
+<div *ngIf="apiLoading">
+    <mat-spinner 
+        color="warn"
+        diameter="20"
+        [ngStyle]="{'margin':'auto'}"></mat-spinner>
+</div>
+<div *ngIf="slots.length === 0 && !apiLoading">
+    <mat-card class="mat-elevation-z8">No Slots Found</mat-card>
 </div>
 <div *ngIf="slots.length > 0">
 <app-slot-detail *ngFor="let slot of slots" [slot]="slot"></app-slot-detail>

@@ -13,6 +13,7 @@
   font-weight: bold;
   text-align: center;
   font-size: 0.8rem;
+  max-width: fit-content;
 }
 
 .pill > p {
@@ -35,8 +36,8 @@
 }
 
 .slot-card-head {
-  display: grid;
-  grid-template-columns: 1fr 8fr;
+  margin-top: 15px;
+  display: flex;
 }
 
 .mat-badge-content {
@@ -75,4 +76,9 @@
 .fee-pill {
   background-color: MediumVioletRed;
   color: #fff;
+}
+
+mat-card:hover {
+  cursor: pointer;
+  transform: scale(1.02, 1.02);
 }

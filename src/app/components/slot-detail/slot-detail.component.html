@@ -1,15 +1,15 @@
 <div class="slot-card">
-    <mat-card>
+    <mat-card class="mat-elevation-z8">
+        <div
+            [matBadge]="slot.available_capacity"
+            matBadgeColor="accent"
+            class="pill vac-pill" 
+            [ngClass]="slot.vaccine === 'COVAXIN' ? 'covaxin' 
+                            : slot.vaccine === 'COVISHIELD' ? 'covishield' 
+                            : 'sputnik' ">
+        <p>{{ slot.vaccine.toLowerCase()}}</p>
+        </div>
         <div class="slot-card-head">
-            <span
-                [matBadge]="slot.available_capacity"
-                matBadgeColor="accent"
-                class="pill vac-pill" 
-                [ngClass]="slot.vaccine === 'COVAXIN' ? 'covaxin' 
-                                : slot.vaccine === 'COVISHIELD' ? 'covishield' 
-                                : 'sputnik' ">
-            <p>{{ slot.vaccine.toLowerCase()}}</p>
-            </span>
             <mat-card-header>
                 <mat-card-title> {{ slot.name }}</mat-card-title>
                 <mat-card-subtitle>

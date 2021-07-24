@@ -19,31 +19,47 @@ export class SearchByDistFormComponent implements OnInit {
 
 
   @Output() searchSubmit: EventEmitter<DistrictSearchParams> = new EventEmitter();
+  @Output() resetSlots: EventEmitter<any> = new EventEmitter()
 
   constructor(private cowin: CowinApiService) { }
 
   ngOnInit(): void {
     this.selectedDate = this.todayDate;
+
+    // Set States from Api Subscription
+    this.cowin.states$.subscribe(states => {
+      this.statesList = states;
+    });
+
+    // Set Districts from Api Subscription
+    this.cowin.district$.subscribe(districts => {
+      this.distList = districts;
+    });
+
+    // Set States List on Init
     this.getStatesList();
   }
 
   getStatesList() {
-    this.cowin.getStateList().forEach(states => {
-      this.statesList = (states as States).states;
-      console.log(this.statesList)
-    })
+    // Reset Selected State
+    this.selectedState = 0;
+
+    // Get List of States
+    this.cowin.getStateList();
   }
 
   getDistricts() {
-    this.distList = null;
-    this.cowin.getDistForState(+this.selectedState).forEach(dist => {
-      this.distList = (dist as Districts).districts;
-      console.log(this.distList)
-    })
-  }
+    // Reset selected District
+    this.selectedDist = 0;
+    
+    // Set District List to empty when state change
+    this.cowin.setDistricts([]);
 
-  viewSelectedDistrict() {
-    console.log(this.selectedDist)
+    // Emit Reset Slots List Event
+    this.resetSlotsEvent();
+
+    // Get list of Districst
+    this.cowin.getDistForState(+this.selectedState);
   }
 
   searchByDist() {
@@ -57,6 +73,10 @@ export class SearchByDistFormComponent implements OnInit {
     } else {
       alert ("Please select valid district and Date !!!")
     }
+  }
+
+  resetSlotsEvent() {
+    this.resetSlots.emit();
   }
 
 }

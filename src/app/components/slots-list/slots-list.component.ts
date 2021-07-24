@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Slots } from '../../interfaces/api-data';
+import { CowinApiService } from '../../services/cowin-api.service';
 
 @Component({
   selector: 'app-slots-list',
@@ -8,11 +9,12 @@ import { Slots } from '../../interfaces/api-data';
 })
 export class SlotsListComponent implements OnInit {
 
-  @Input() slots: Slots[];
+  @Input() slots: Slots[] = [];
+  apiLoading: boolean;
 
-  constructor() { }
+  constructor( private cowin: CowinApiService) { }
 
   ngOnInit(): void {
+    this.cowin.apiLoading$.subscribe(state => this.apiLoading = state);
   }
-
 }
