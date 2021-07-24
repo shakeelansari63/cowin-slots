@@ -17,6 +17,8 @@ export class SearchByDistFormComponent implements OnInit {
   todayDate: Date = new Date();
   selectedDate: any;
 
+  slotsList: any[] = [];
+
 
   @Output() searchSubmit: EventEmitter<DistrictSearchParams> = new EventEmitter();
   @Output() resetSlots: EventEmitter<any> = new EventEmitter()
@@ -35,6 +37,11 @@ export class SearchByDistFormComponent implements OnInit {
     this.cowin.district$.subscribe(districts => {
       this.distList = districts;
     });
+
+    // Get Slots List from Subscription
+    this.cowin.slots$.subscribe(slots => {
+      this.slotsList = slots;
+    })
 
     // Set States List on Init
     this.getStatesList();

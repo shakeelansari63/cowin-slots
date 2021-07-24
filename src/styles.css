@@ -23,3 +23,9 @@ mat-form-field {
 .top15 {
   margin-top: 15px;
 }
+
+.btn-row {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}

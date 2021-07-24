@@ -12,6 +12,7 @@ export class SearchByPinFormComponent implements OnInit {
   inPincode: string;
   selectedDate: any;
   todayDate: Date;
+  slotsList: any[] = [];
 
   @Output() searchSubmit: EventEmitter<PincodeSearchParams> = new EventEmitter();
   @Output() resetSlots: EventEmitter<any> = new EventEmitter()
@@ -25,6 +26,11 @@ export class SearchByPinFormComponent implements OnInit {
 
     // Set Input PIncode
     this.inPincode = '';
+
+    // Subscribe to Slots List
+    this.cowin.slots$.subscribe(slots => {
+      this.slotsList = slots;
+    })
   }
 
   searchByPincode() {
@@ -37,7 +43,7 @@ export class SearchByPinFormComponent implements OnInit {
 
       // Emit Search Event
       this.searchSubmit.emit(pincodeParam);
-      
+
     } else {
       alert('Please enter Pin Code');
     }
