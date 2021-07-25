@@ -1,15 +1,31 @@
 <div class="flex">
-    <mat-button-toggle-group name="age-group" aria-label="Age Group" ngClass="tr15">
-        <mat-button-toggle value="60">60+</mat-button-toggle>
-        <mat-button-toggle value="45">45+</mat-button-toggle>
-        <mat-button-toggle value="18">18+</mat-button-toggle>
+    <mat-button-toggle-group 
+        name="age-group" 
+        aria-label="Age Group" 
+        ngClass="tr15" 
+        [(ngModel)]="ageFilter"
+        (change)="setAgeFilter()">
+            <mat-button-toggle value="60">60+</mat-button-toggle>
+            <mat-button-toggle value="45">45+</mat-button-toggle>
+            <mat-button-toggle value="18">18+</mat-button-toggle>
     </mat-button-toggle-group>
-    <mat-button-toggle-group name="vaccine-group" aria-label="Vaccine" ngClass="tr15">
-        <mat-button-toggle value="COVISHIELD">Covishield</mat-button-toggle>
-        <mat-button-toggle value="COVAXIN">Covaxin</mat-button-toggle>
-        <mat-button-toggle value="SPUTNIK V">Sputnik V</mat-button-toggle>
+    <mat-button-toggle-group 
+        name="vaccine-group" 
+        aria-label="Vaccine" 
+        ngClass="tr15" 
+        [(ngModel)]="vaccineFilter"
+        (change)="setVaccineFilter()">
+            <mat-button-toggle value="COVISHIELD">Covishield</mat-button-toggle>
+            <mat-button-toggle value="COVAXIN">Covaxin</mat-button-toggle>
+            <mat-button-toggle value="SPUTNIK V">Sputnik V</mat-button-toggle>
     </mat-button-toggle-group>
     <div class="tr15">
-        <button mat-stroked-button color="warn"><mat-icon>clear_all</mat-icon>Clear Filters</button>
+        <button 
+            mat-stroked-button 
+            color="warn"
+            (click)="clearAllFilters()">
+                <mat-icon>clear_all</mat-icon>
+                Clear Filters
+        </button>
     </div>
 </div>

@@ -11,7 +11,11 @@ export class CowinApiService {
   stateMetadata: string = 'https://cdn-api.co-vin.in/api/v2/admin/location/states/';
   distMetadata: string = 'https://cdn-api.co-vin.in/api/v2/admin/location/districts';
   distSlots: string = 'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict';
-  pinSlots: string = 'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByPin'
+  pinSlots: string = 'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByPin';
+
+  ageFilter: number;
+  vaccineFilter: string;
+  currentSlots: Slots[];
 
   apiLoading: Subject<boolean>;
   apiLoading$: Observable<boolean>;
@@ -26,6 +30,10 @@ export class CowinApiService {
   slots$: Observable<Slots[]>;
 
   constructor(private http: HttpClient) { 
+    // Set default value
+    this.ageFilter = null;
+    this.vaccineFilter = null;
+
     // Create new subjects
     this.apiLoading = new Subject();
     this.stateList = new Subject();
@@ -70,12 +78,15 @@ export class CowinApiService {
   }
 
   getAvailableSlots(url: string, params: HttpParams) { 
+    // Empty Current Slots Content
+    this.setSlots([]);
+
     // Set API Loading State to True
     this.apiLoading.next(true);
 
     // MAke API Call
     this.http.get(url, {params: params}).subscribe(slots => {
-      const foundSlots = (slots as Sessions).sessions
+      this.currentSlots = (slots as Sessions).sessions
                         .filter(session => session.available_capacity > 0)
                         .sort((itm1, itm2) => {
                           return itm1.name > itm2.name ? 1 
@@ -86,13 +97,28 @@ export class CowinApiService {
                                     : itm1.min_age_limit < itm2.min_age_limit ? -1
                                     : 0
                         })
-      // Set Slots
-      this.slotsList.next(foundSlots)
+
+      // Filter as per quick Filters
+      this.quickFilterSlots();
 
       // Reset AP Loading Status
       this.apiLoading.next(false);
     })
 
+  }
+
+  quickFilterSlots() {
+    let filteredSlots: Slots[] = this.currentSlots;
+
+    if (this.ageFilter !== null && this.ageFilter !== 0) {
+      filteredSlots = filteredSlots.filter(slots => slots.min_age_limit == this.ageFilter)
+    } 
+    if (this.vaccineFilter !== null && this.vaccineFilter !== '') {
+      filteredSlots = filteredSlots.filter(slots => slots.vaccine === this.vaccineFilter)
+    }
+
+    // check if data is filtered and set the slots list accordingly
+    this.slotsList.next(filteredSlots);
   }
 
   getSlotsByDist(distId: number, slotDt: Date) {
@@ -109,7 +135,8 @@ export class CowinApiService {
   }
 
   setSlots(sl: Slots[]) {
-    this.slotsList.next(sl);
+    this.currentSlots = sl;
+    this.slotsList.next(this.currentSlots);
   }
 
   getSlotByPincode(pincode: number, slotDt: Date) {
@@ -128,4 +155,14 @@ export class CowinApiService {
   setApiLoadingState(state: boolean) {
     this.apiLoading.next(state)
   } 
+
+  setAgeFilter(val: number) {
+    this.ageFilter = val;
+    this.quickFilterSlots();
+  }
+
+  setVaccineFilter(val: string) {
+    this.vaccineFilter = val;
+    this.quickFilterSlots();
+  }
 }
