@@ -108,17 +108,19 @@ export class CowinApiService {
   }
 
   quickFilterSlots() {
-    let filteredSlots: Slots[] = this.currentSlots;
+    if (this.currentSlots) {
+      let filteredSlots: Slots[] = this.currentSlots;
 
-    if (this.ageFilter !== null && this.ageFilter !== 0) {
-      filteredSlots = filteredSlots.filter(slots => slots.min_age_limit == this.ageFilter)
-    } 
-    if (this.vaccineFilter !== null && this.vaccineFilter !== '') {
-      filteredSlots = filteredSlots.filter(slots => slots.vaccine === this.vaccineFilter)
+      if (this.ageFilter !== null && this.ageFilter !== 0) {
+        filteredSlots = filteredSlots.filter(slots => slots.min_age_limit == this.ageFilter)
+      } 
+      if (this.vaccineFilter !== null && this.vaccineFilter !== '') {
+        filteredSlots = filteredSlots.filter(slots => slots.vaccine === this.vaccineFilter)
+      }
+
+      // check if data is filtered and set the slots list accordingly
+      this.slotsList.next(filteredSlots);
     }
-
-    // check if data is filtered and set the slots list accordingly
-    this.slotsList.next(filteredSlots);
   }
 
   getSlotsByDist(distId: number, slotDt: Date) {
