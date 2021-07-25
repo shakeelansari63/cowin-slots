@@ -16,6 +16,13 @@ body {
   padding: 0px 40px;
 }
 
+.container-large {
+  max-width: 1200px;
+  margin: 0px auto;
+  overflow: auto;
+  padding: 0px 40px;
+}
+
 mat-form-field {
   width: 100%;
 }
