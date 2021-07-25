@@ -1,0 +1,9 @@
+.mat-button-toggle:hover {
+  background-color: transparent;
+  color: #1100ff !important;
+}
+
+.mat-button-toggle-group {
+  height: 32px;
+  align-items: center;
+}
