@@ -16,6 +16,7 @@ import { SearchByPinFormComponent } from './components/search-by-pin-form/search
 import { QuickFiltersComponent } from './components/quick-filters/quick-filters.component';
 import { SlotDetailComponent } from './components/slot-detail/slot-detail.component';
 import { SlotsListComponent } from './components/slots-list/slots-list.component';
+import { DownloadCertificateComponent } from './components/download-certificate/download-certificate.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { SlotsListComponent } from './components/slots-list/slots-list.component
     SearchByPinFormComponent,
     QuickFiltersComponent,
     SlotDetailComponent,
-    SlotsListComponent
+    SlotsListComponent,
+    DownloadCertificateComponent
   ],
   imports: [
     BrowserModule,

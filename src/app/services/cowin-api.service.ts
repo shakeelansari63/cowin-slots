@@ -12,6 +12,9 @@ export class CowinApiService {
   distMetadata: string = 'https://cdn-api.co-vin.in/api/v2/admin/location/districts';
   distSlots: string = 'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict';
   pinSlots: string = 'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByPin';
+  genOtp: string = 'https://cdn-api.co-vin.in/api/v2/auth/public/generateOTP';
+  confOtp: string = 'https://cdn-api.co-vin.in/api/v2/auth/public/confirmOTP';
+  getCert: string = 'https://cdn-api.co-vin.in/api/v2/registration/certificate/public/download';
 
   ageFilter: number;
   vaccineFilter: string;

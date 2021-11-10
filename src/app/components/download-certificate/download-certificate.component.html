@@ -1,0 +1,38 @@
+<div class="top15">
+    <form #certForm="ngForm" (ngSubmit)="downloadCertificate()">
+        <div>
+            <mat-form-field appearance="fill">
+                <mat-label>Mobile Number</mat-label>
+                <input matInput type="text" name="mobile" [value]="mobile"/>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field appearance="fill">
+                <mat-label>OTP</mat-label>
+                <input matInput type="text" name="otp" [value]="otp"/>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field appearance="fill">
+                <mat-label>Registration Number</mat-label>
+                <input matInput type="text" name="regnumber" [value]="regnumber"/>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-grid-list cols="2" rowHeight="80px">
+                <mat-grid-tile>
+                    <button mat-raised-button color="accent" type="button">
+                        <mat-icon>textsms</mat-icon> 
+                        Get OTP
+                    </button>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                    <button mat-raised-button color="primary" type="submit">
+                        <mat-icon>save_alt</mat-icon> 
+                        Download Certificate
+                    </button>
+                </mat-grid-tile>
+            </mat-grid-list>
+        </div>
+    </form>
+</div>
