@@ -37,3 +37,9 @@
         </div>
     </form>
 </div>
+<div *ngIf="apiLoading">
+    <mat-spinner 
+        color="warn"
+        diameter="20"
+        [ngStyle]="{'margin':'auto'}"></mat-spinner>
+</div>

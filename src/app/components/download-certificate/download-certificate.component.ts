@@ -26,10 +26,13 @@ export class DownloadCertificateComponent implements OnInit, OnDestroy {
   displayMessage = false;
   message = '';
 
+  apiLoading = false;
+
   ngOnInit(): void {
     this.subs.push(this.covin.otpSent$.subscribe(res => this.isOTPSent = res));
     this.subs.push(this.covin.canGetOtp$.subscribe(res => this.displayOtpBtn = res));
     this.subs.push(this.covin.validOtp$.subscribe(res => this.isOTPValid = res));
+    this.subs.push(this.covin.apiLoading$.subscribe(res => this.apiLoading = res));
   }
 
   ngOnDestroy(): void {

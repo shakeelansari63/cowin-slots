@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders} from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
-import {States, State, Districts, District, Sessions, Slots, OtpTransaction, OtpToken} from '../interfaces/api-data';
+import { States, State, Districts, District, Sessions, Slots, OtpTransaction, OtpToken } from '../interfaces/api-data';
 import { sha256 } from 'js-sha256';
-import { saveAs } from 'file-saver';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
@@ -48,7 +48,7 @@ export class CowinApiService {
 
   bearerToken: string = '';
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient, private _snackBar: MatSnackBar) { 
     // Set default value
     this.ageFilter = null;
     this.vaccineFilter = null;
@@ -195,6 +195,8 @@ export class CowinApiService {
 
   // Methods for Certificate
   getOtp(mobileno: string) {
+    this.apiLoading.next(true);
+
     let data = {
       mobile: mobileno
     };
@@ -204,14 +206,20 @@ export class CowinApiService {
       this.otpSent.next(true);
       this.canGetOtp.next(false);
 
+      this.apiLoading.next(false);
+
       setTimeout(() => {
         this.canGetOtp.next(true);
         this.otpSent.next(false);
       }, 180000)
+    },
+    _err => {
+      this._snackBar.open("An Error Occured", "Dismiss", {duration: 3000});
     });
   }
 
   confirmOtp(otp: string) {
+    this.apiLoading.next(true);
     let encodedOtp = sha256(otp);
 
     let data = {
@@ -223,28 +231,36 @@ export class CowinApiService {
       this.bearerToken = result.token;
       this.canGetOtp.next(false);
       this.validOtp.next(true);
-    });
+      this.apiLoading.next(false);
+    },
+    _err => {
+      this._snackBar.open("Invalid OTP", "Dismiss", {duration: 3000});
+      this.apiLoading.next(false);
+    }
+    );
   }
 
   getCertificate(regid: string) {
-    let data = {
+    this.apiLoading.next(true);
+
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer ' + this.bearerToken,
+      Accept: 'application/pdf'
+    });
+
+    const data = {
       beneficiary_reference_id: regid
     }
 
-    let header: HttpHeaders = new HttpHeaders()
-        .set('Authorization', 'Bearer ' + this.bearerToken);
-
-    this.http.get(this.getCert, {params: data, headers: header}).subscribe((resp: BlobPart) => {
-      let blob = new Blob([resp], {type: 'application/pdf'});
-      let fileURL = URL.createObjectURL(blob);
-      window.open(fileURL);
-
-      let a             = document.createElement('a');
-          a.href        = fileURL; 
-          a.target      = '_blank';
-          a.download    = 'certificate.pdf';
-          document.body.appendChild(a);
-          a.click();
+    this.http.get(this.getCert, { params: data, headers:headers, responseType: 'blob', observe: 'body' }).subscribe((resp: Blob) => {
+      //let blob = new Blob([resp], {type: 'application/pdf'});
+      let fileURL = URL.createObjectURL(resp);
+      window.open(fileURL, '_blank');
+      this.apiLoading.next(false);
+    },
+    _err => {
+      this._snackBar.open("Invalid Registration Number", "Dismiss", {duration: 3000});
+      this.apiLoading.next(false);
     })
   }
 }
