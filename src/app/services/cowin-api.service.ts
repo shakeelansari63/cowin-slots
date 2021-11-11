@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders} from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
-import {States, State, Districts, District, Sessions, Slots} from '../interfaces/api-data'
+import {States, State, Districts, District, Sessions, Slots, OtpTransaction, OtpToken} from '../interfaces/api-data';
+import { sha256 } from 'js-sha256';
+import { saveAs } from 'file-saver';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +15,9 @@ export class CowinApiService {
   distSlots: string = 'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict';
   pinSlots: string = 'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByPin';
   genOtp: string = 'https://cdn-api.co-vin.in/api/v2/auth/public/generateOTP';
+  // genOtp: string = 'https://cdndemo-api.co-vin.in/api/v2/auth/public/generateOTP';
   confOtp: string = 'https://cdn-api.co-vin.in/api/v2/auth/public/confirmOTP';
+  // confOtp: string = 'https://cdndemo-api.co-vin.in/api/v2/auth/public/confirmOTP';
   getCert: string = 'https://cdn-api.co-vin.in/api/v2/registration/certificate/public/download';
 
   ageFilter: number;
@@ -32,6 +36,18 @@ export class CowinApiService {
   slotsList: Subject<Slots[]>;
   slots$: Observable<Slots[]>;
 
+  otpTxnId: string = '';
+  otpSent: Subject<boolean>;
+  otpSent$: Observable<boolean>;
+
+  canGetOtp: Subject<boolean>;
+  canGetOtp$: Observable<boolean>;
+
+  validOtp: Subject<boolean>;
+  validOtp$: Observable<boolean>;
+
+  bearerToken: string = '';
+
   constructor(private http: HttpClient) { 
     // Set default value
     this.ageFilter = null;
@@ -42,12 +58,18 @@ export class CowinApiService {
     this.stateList = new Subject();
     this.districtList = new Subject();
     this.slotsList = new Subject();
+    this.otpSent = new Subject();
+    this.canGetOtp = new Subject();
+    this.validOtp = new Subject();
 
     // Create Observable for ApiLoading Subject
     this.apiLoading$ = this.apiLoading.asObservable();
     this.states$ = this.stateList.asObservable();
     this.district$ = this.districtList.asObservable();
     this.slots$ = this.slotsList.asObservable();
+    this.otpSent$ = this.otpSent.asObservable();
+    this.canGetOtp$ = this.canGetOtp.asObservable();
+    this.validOtp$ = this.validOtp.asObservable();
 
     // Set Initial value to False
     this.apiLoading.next(false)
@@ -169,5 +191,60 @@ export class CowinApiService {
   setVaccineFilter(val: string) {
     this.vaccineFilter = val;
     this.quickFilterSlots();
+  }
+
+  // Methods for Certificate
+  getOtp(mobileno: string) {
+    let data = {
+      mobile: mobileno
+    };
+    
+    this.http.post(this.genOtp, data).subscribe((result: OtpTransaction) => {
+      this.otpTxnId = result.txnId;
+      this.otpSent.next(true);
+      this.canGetOtp.next(false);
+
+      setTimeout(() => {
+        this.canGetOtp.next(true);
+        this.otpSent.next(false);
+      }, 180000)
+    });
+  }
+
+  confirmOtp(otp: string) {
+    let encodedOtp = sha256(otp);
+
+    let data = {
+      otp: encodedOtp,
+      txnId: this.otpTxnId
+    }
+    
+    this.http.post(this.confOtp, data).subscribe((result: OtpToken) => {
+      this.bearerToken = result.token;
+      this.canGetOtp.next(false);
+      this.validOtp.next(true);
+    });
+  }
+
+  getCertificate(regid: string) {
+    let data = {
+      beneficiary_reference_id: regid
+    }
+
+    let header: HttpHeaders = new HttpHeaders()
+        .set('Authorization', 'Bearer ' + this.bearerToken);
+
+    this.http.get(this.getCert, {params: data, headers: header}).subscribe((resp: BlobPart) => {
+      let blob = new Blob([resp], {type: 'application/pdf'});
+      let fileURL = URL.createObjectURL(blob);
+      window.open(fileURL);
+
+      let a             = document.createElement('a');
+          a.href        = fileURL; 
+          a.target      = '_blank';
+          a.download    = 'certificate.pdf';
+          document.body.appendChild(a);
+          a.click();
+    })
   }
 }

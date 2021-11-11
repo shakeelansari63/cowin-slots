@@ -55,3 +55,11 @@ export interface Slots {
 export interface Sessions {
     sessions: Slots[];
 }
+
+export interface OtpTransaction {
+    txnId: string;
+}
+
+export interface OtpToken {
+    token: string;
+}

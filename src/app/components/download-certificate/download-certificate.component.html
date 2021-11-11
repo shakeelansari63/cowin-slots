@@ -1,33 +1,34 @@
 <div class="container top15">
-    <form #certForm="ngForm" (ngSubmit)="downloadCertificate()">
+    <form #certForm="ngForm" (ngSubmit)="downloadCertificate()" autocomplete="off">
         <div>
             <mat-form-field appearance="fill">
                 <mat-label>Mobile Number</mat-label>
-                <input matInput type="text" name="mobile" [value]="mobile"/>
+                <input matInput type="text" name="mobile" [(ngModel)]="mobile" (keypress)="numbersOnly($event)" (keyup)="validateMobile()"/>
             </mat-form-field>
         </div>
-        <div>
+        <div *ngIf="isOTPSent && !isOTPValid">
             <mat-form-field appearance="fill">
                 <mat-label>OTP</mat-label>
-                <input matInput type="text" name="otp" [value]="otp"/>
+                <input matInput type="text" name="otp" [(ngModel)]="otp" (keypress)="numbersOnly($event)" (keyup)="validateOtp()"/>
             </mat-form-field>
         </div>
-        <div>
+        <div *ngIf="isOTPValid">
             <mat-form-field appearance="fill">
                 <mat-label>Registration Number</mat-label>
-                <input matInput type="text" name="regnumber" [value]="regnumber"/>
+                <input matInput type="text" name="regnumber" [(ngModel)]="regnumber" (keypress)="numbersOnly($event)" (keyup)="validateRegistration()"/>
             </mat-form-field>
         </div>
+        <div *ngIf="displayMessage"><span #Message>{{message}}</span></div>
         <div>
             <mat-grid-list cols="2" rowHeight="80px">
                 <mat-grid-tile>
-                    <button mat-raised-button color="accent" type="button">
+                    <button *ngIf="!isOTPValid" [disabled]="!displayOtpBtn" mat-raised-button color="accent" type="button" (click)="generateOTP()">
                         <mat-icon>textsms</mat-icon> 
                         Get OTP
                     </button>
                 </mat-grid-tile>
                 <mat-grid-tile>
-                    <button mat-raised-button color="primary" type="submit">
+                    <button [disabled]="!isRegValid" mat-raised-button color="primary" type="submit">
                         <mat-icon>save_alt</mat-icon> 
                         Download Certificate
                     </button>
